@@ -12,9 +12,9 @@ def train():
 
     agent = DQNAgent(state_size, action_size)
 
-    EPISODES = 3000
+    EPISODES = 8000
     TRAIN_EVERY = 4       # do a gradient update every 4 steps
-    TARGET_EVERY = 100    # sync target network every 100 steps
+    TARGET_EVERY = 200    # sync target network every 100 steps
 
     training_log = []
     total_steps = 0
