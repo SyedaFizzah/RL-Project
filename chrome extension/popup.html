@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { width: 280px; font-family: sans-serif; padding: 12px; }
+    h3 { margin: 0 0 10px; color: #2d6a4f; }
+    .stat { display: flex; justify-content: space-between; padding: 6px 0;
+            border-bottom: 1px solid #eee; font-size: 13px; }
+    .label { color: #555; }
+    .value { font-weight: bold; color: #333; }
+    button { width: 100%; margin-top: 12px; padding: 8px;
+             background: #2d6a4f; color: white; border: none;
+             border-radius: 6px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h3>⏱ RL Task Tracker</h3>
+  <div class="stat">
+    <span class="label">Today's tracked time</span>
+    <span class="value" id="total-time">Loading...</span>
+  </div>
+  <div class="stat">
+    <span class="label">Current tab</span>
+    <span class="value" id="current-tab">-</span>
+  </div>
+  <div class="stat">
+    <span class="label">Pending logs</span>
+    <span class="value" id="pending">0</span>
+  </div>
+  <button id="sync-btn">Sync Now</button>
+  <script src="popup.js"></script>
+</body>
+</html>
