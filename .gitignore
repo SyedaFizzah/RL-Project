@@ -8,3 +8,4 @@ node_modules/
 *.sqlite
 .DS_Store
 frontend/dist/
+.vscode/
