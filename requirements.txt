@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+sqlalchemy
+numpy==1.26.4
+torch
+pydantic
+gymnasium
