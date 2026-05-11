@@ -81,6 +81,7 @@ def get_tasks(db: Session = Depends(get_db)):
 @app.post("/tasks")
 def create_task(task: TaskCreate, db: Session = Depends(get_db)):
     """Add a new task."""
+    
     new_task = Task(**task.model_dump())
     db.add(new_task)
     db.commit()
