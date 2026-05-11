@@ -237,7 +237,7 @@ class DQNAgent:
         self.gamma         = 0.99
         self.epsilon       = 1.0
         self.epsilon_min   = 0.01
-        self.epsilon_decay = 0.997
+        self.epsilon_decay = 0.997 
         self.batch_size    = 64
         self.learning_rate = 0.0005
 

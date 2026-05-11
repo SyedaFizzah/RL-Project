@@ -3,12 +3,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from typing import List
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import numpy as np
 import torch
 import os
 import sys
-
+ # Ensure correct PyTorch version is installed
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
 from backend.database.models import Task, TimeLog, EnergyLog, get_db
@@ -120,17 +120,18 @@ def recommend_task(energy: int = 3, db: Session = Depends(get_db)):
         if i < len(pending):
             t = pending[i]
             task_map[i] = t
-            task_features.extend([
+            features = [
                 t.priority / 3.0,
                 t.effort / 4.0,
                 min(t.deadline_days, 7) / 7.0,
                 0.0,
-            ])
+            ]
         else:
-            task_features.extend([0.0, 0.0, 0.0, 0.0])
+            features = [0.0, 0.0, 0.0, 0.0]
+        task_features.extend(features)
 
     # Compute productivity score from recent Chrome extension data
-    two_hours_ago = datetime.utcnow() - timedelta(hours=2)
+    two_hours_ago = datetime.now(timezone.utc) - timedelta(hours=2)
     recent = db.query(TimeLog).filter(TimeLog.logged_at >= two_hours_ago).all()
     productive   = sum(l.duration_seconds for l in recent if l.category == "productive")
     distracting  = sum(l.duration_seconds for l in recent if l.category == "distracting")
@@ -202,7 +203,7 @@ def receive_timelog(data: TimeLogBatch, db: Session = Depends(get_db)):
 @app.get("/report/weekly")
 def weekly_report(db: Session = Depends(get_db)):
     """Return weekly productivity summary."""
-    one_week_ago = datetime.utcnow() - timedelta(days=7)
+    one_week_ago = datetime.now(timezone.utc) - timedelta(days=7)
 
     completed = db.query(Task).filter(Task.status == "done").count()
     pending   = db.query(Task).filter(Task.status == "pending").count()
